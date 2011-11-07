@@ -3,6 +3,17 @@ module Mech
   VERSION = [ 0, 0, 1 ]
 
   autoload :Config, File.join(File.dirname(__FILE__), 'mech/config')
+  autoload :Compiler, File.join(File.dirname(__FILE__), 'mech/compiler')
+  
+  class Compiler
+    autoload :Format, File.join(File.dirname(__FILE__), 'mech/compiler/format')
+    
+    class Format
+      autoload :Format, File.join(File.dirname(__FILE__), 'mech/compiler/format/ruby')
+      autoload :Format, File.join(File.dirname(__FILE__), 'mech/compiler/format/actionscript')
+      autoload :Format, File.join(File.dirname(__FILE__), 'mech/compiler/format/javascript')
+    end
+  end
 
   class << self
 
