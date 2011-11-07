@@ -19,6 +19,7 @@ module Mech
 
     def init(path = nil)
       require path || File.join(File.dirname(__FILE__), 'mech_conf')
+      @config ||= Mech::Config.instance
     end
 
     def config
@@ -33,7 +34,7 @@ module Mech
       @config
     end
 
-    def construct
+    def construct_data
 
     end
 

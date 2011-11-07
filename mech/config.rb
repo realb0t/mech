@@ -2,22 +2,21 @@ require 'singleton'
 
 class Mech::Config
   include Singleton
-  attr_accessor :bin_path, :src_path
 
   def self.init(&block)
-    instance(&block)
+    instance.init(&block)
   end
-
-  def bin_path(value = nil)
-    @bin_path ||= value
-  end
-
-  def src_path(value = nil)
-    @src_path ||= value
-  end
-
-  def enviropment(value = nil)
-    @enviropment ||= value
+  
+  def method_missing(variable, *args, &block)
+    if block_given?
+      args.unshift(self)
+      instance_variable_set("@#{variable}", lambda { block.call(*args) })
+    elsif args.size > 0
+      instance_variable_set("@#{variable}", args.shift)
+    else
+      value = instance_variable_get("@#{variable}")
+      value.respond_to?(:call) ? value.call : value
+    end
   end
 
   def init(&block)
