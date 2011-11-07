@@ -1,3 +1,5 @@
+require 'find'
+
 module Mech
 
   VERSION = [ 0, 0, 1 ]
@@ -35,7 +37,9 @@ module Mech
     end
 
     def construct_data
-
+      Find.find(config.src_path) do |f| 
+        puts f if f.match(/\.yml\Z/)
+      end
     end
 
     def compile!
