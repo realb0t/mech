@@ -16,6 +16,10 @@ class Mech::Config
     @src_path ||= value
   end
 
+  def enviropment(value = nil)
+    @enviropment ||= value
+  end
+
   def init(&block)
     instance_eval(&block)
   end

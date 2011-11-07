@@ -22,6 +22,10 @@ module Mech
       @config
     end
 
+    def construct
+
+    end
+
     def compile!
 
     end
