@@ -6,7 +6,7 @@ class Mech::Config
   def self.init(&block)
     instance.init(&block)
   end
-  
+
   def method_missing(variable, *args, &block)
     if block_given?
       args.unshift(self)
@@ -17,6 +17,10 @@ class Mech::Config
       value = instance_variable_get("@#{variable}")
       value.respond_to?(:call) ? value.call : value
     end
+  end
+
+  def env
+    enviropment || nil
   end
 
   def init(&block)

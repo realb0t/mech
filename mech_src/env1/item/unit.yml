@@ -1,0 +1,5 @@
+item_02:
+  shoppable: true
+item_03:
+  name: 'Item thith name'
+  shoppable: true
