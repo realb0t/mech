@@ -1,5 +1,1 @@
-item_01:
-  name 'Common first item name'
-
-item_02:
-  name 'Common second item name'
+name 'Common first item name'

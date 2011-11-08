@@ -1,4 +1,5 @@
 require 'find'
+require 'yaml'
 
 module Mech
 
@@ -50,12 +51,28 @@ module Mech
         [otn_path, path_deep]
       end
       @paths_with_deep.sort_by! { |p| p[1] }
-      puts @paths_with_deep.map { |p| p.join(', ') }
+    end
+
+    def type_merge(path)
+      path
+    end
+
+    def merge_recursive
+      @paths_with_deep.delete_if { |p| p[0] == '/common.yml' }
+      @common_obj = YAML.load(File.read(config.src_path + '/common.yml'))
+
+      type_index = @paths_with_deep[0][1]
+      @types = @paths_with_deep.select { |y| y[1] == type_index }.map(&:first)
+      @paths_with_deep.delete_if { |y| y[1] == type_index }
+      @paths = @paths_with_deep.map(&:first)
+
+      @types.map { |type_path| type_merge(type_path) }
     end
 
     def construct_data
       init_paths
       build_merge_graph
+      merge_recursive
     end
 
     def compile!

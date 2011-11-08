@@ -1,5 +1,6 @@
 item_02:
-  shoppable: true
+  name: 'Item second name'
+
 item_03:
   name: 'Item thith name'
-  shoppable: true
+  shoppable: false
