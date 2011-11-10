@@ -18,6 +18,7 @@ module Mech
   autoload :Config, File.join(File.dirname(__FILE__), 'mech/config')
   autoload :Compiler, File.join(File.dirname(__FILE__), 'mech/compiler')
   autoload :Producer, File.join(File.dirname(__FILE__), 'mech/producer')
+  autoload :PathLoader, File.join(File.dirname(__FILE__), 'mech/path_loader')
 
   class Producer
     autoload :Common , File.join(File.dirname(__FILE__), 'mech/producer/common')
@@ -27,9 +28,14 @@ module Mech
     autoload :Format, File.join(File.dirname(__FILE__), 'mech/compiler/format')
 
     class Format
-      autoload :Format, File.join(File.dirname(__FILE__), 'mech/compiler/format/ruby')
-      autoload :Format, File.join(File.dirname(__FILE__), 'mech/compiler/format/actionscript')
-      autoload :Format, File.join(File.dirname(__FILE__), 'mech/compiler/format/javascript')
+      autoload :Format, File.join(File.dirname(__FILE__),
+        'mech/compiler/format/ruby')
+
+      autoload :Format, File.join(File.dirname(__FILE__),
+        'mech/compiler/format/actionscript')
+
+      autoload :Format, File.join(File.dirname(__FILE__),
+        'mech/compiler/format/javascript')
     end
   end
 
@@ -37,23 +43,9 @@ module Mech
 
     include Mech::Configurator
 
-    def init_paths
-      @paths = []
-      Find.find(config.src_path) { |f|
-        @paths.push(f) if f.match(/\.yml\Z/)
-      }
-    end
-
-    def filter_paths_by_env
-      @paths.select! do |path|
-        path =~ Regexp.new(File.join(config.src_path, config.env))
-      end
-    end
-
     def produce
-      init_paths
-      filter_paths_by_env
-      prod = Mech::Producer::Common.new(@paths)
+      loader = Mech::PathLoader.new(config)
+      prod = Mech::Producer::Common.new(loader.paths)
       prod.produce
     end
 
