@@ -22,7 +22,8 @@ class Mech::Producer::Common < Mech::Producer
         @common_obj = YAML.load(File.read(config.src_path + '/common.yml'))
 
         @stored_paths = @paths_with_deep.select { |p, d|
-          d == @max_path_deep }.map(&:first)
+          d == @max_path_deep
+        }.map(&:first)
 
         merged_items_by_path = @stored_paths.map do |stored_path|
           extend_obj = build_extend_object(stored_path, {})
@@ -32,8 +33,34 @@ class Mech::Producer::Common < Mech::Producer
             objs[name] = @common_obj.deep_merge(extend_obj.deep_merge(obj))
           end
 
-          objs
+          env_path = File.join(config.src_path, config.env)
+          tail_path = stored_path.gsub(env_path, '')
+          meta_type = tail_path.split('/')[1]
+
+          [meta_type, objs]
         end
+
+        items_by_meta_type = {}
+        merged_items_by_path.each do |meta, items|
+          items_by_meta_type[meta] ||= {}
+          items_by_meta_type[meta].deep_merge!(items)
+        end
+
+        merged_items_by_meta_type = {}
+        items_by_meta_type.each do |meta, items|
+          meta_data = get_meta_data(meta)
+          items.each do |name, item|
+            item = meta_data.deep_merge(item)
+            items_by_meta_type[meta][name] = item
+          end
+        end
+
+        items_by_meta_type
+      end
+
+      def get_meta_data(meta_type)
+        path = File.join(config.src_path, "#{meta_type}.yml")
+        yaml = Psych.load(File.read(path))
       end
 
       def build_extend_object(path, pattern)
