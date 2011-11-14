@@ -60,6 +60,8 @@ module Mech
       compiler = Mech::Compiler.build(compile_format)
 
       data     = producer.produce
+
+      compiler.compile(data)
     end
 
   end
