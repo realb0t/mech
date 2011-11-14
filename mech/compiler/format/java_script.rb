@@ -8,7 +8,7 @@ class Mech::Compiler::Format::JavaScript < Mech::Compiler::Format
 
   def compile(data, params = {})
     @data = data
-    self.with_template
+    with_template
   end
 
 

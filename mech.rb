@@ -36,11 +36,8 @@ module Mech
     autoload :Format, File.join(File.dirname(__FILE__), 'mech/compiler/format')
 
     class Format
-      autoload :Ruby, File.join(File.dirname(__FILE__),
-        'mech/compiler/format/ruby')
-
-      autoload :ActionScript, File.join(File.dirname(__FILE__),
-        'mech/compiler/format/action_script')
+      autoload :Yaml, File.join(File.dirname(__FILE__),
+        'mech/compiler/format/yaml')
 
       autoload :JavaScript, File.join(File.dirname(__FILE__),
         'mech/compiler/format/java_script')
@@ -52,8 +49,8 @@ module Mech
     include Mech::Configurator
 
     def compile(meta_types = [ :item, :quest ], params = {})
-      producer_name = params[:producer_name] || 'Common'
-      compile_format = params[:compiler_format] || 'JavaScript'
+      producer_name = params[:producer_name] || config.producer
+      compile_format = params[:compiler_format] || config.compiler
 
       loader   = Mech::PathLoader.new(config)
       producer = Mech::Producer.const_get(producer_name).new(loader.paths)
