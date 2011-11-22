@@ -52,6 +52,9 @@ module Mech
     def compile(params = {})
       producer_name = params[:producer_name] || config.producer
       compile_format = params[:compiler_format] || config.compiler
+      config_path = params[:config_path]
+
+      init(config_path) if config_path
 
       loader   = Mech::PathLoader.new(config)
       producer = Mech::Producer.const_get(producer_name).new(loader.paths)

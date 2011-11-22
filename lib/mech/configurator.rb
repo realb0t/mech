@@ -1,7 +1,7 @@
 module Mech::Configurator
 
   def init(path = nil)
-    require path || File.join(File.dirname(__FILE__), '..', 'mech_conf')
+    require path || File.join(File.dirname(__FILE__), '..', 'conf')
     @config ||= Mech::Config.instance
     self
   end
