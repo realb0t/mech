@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "mech"
   gem.homepage = "http://github.com/realb0t/mech"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = "Build config formats from nested yaml"
+  gem.description = "Build config formats from nested yaml"
   gem.email = "kazantsev.nickolay@gmail.com"
   gem.authors = ["Kazantsev Nickolay"]
   # dependencies defined in Gemfile
