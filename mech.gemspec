@@ -52,6 +52,7 @@ Gem::Specification.new do |s|
     "lib/src/env/item.yml",
     "lib/src/env/item/items.yml",
     "lib/src/item.yml",
+    "mech.gemspec",
     "test/helper.rb",
     "test/test_mech.rb"
   ]
